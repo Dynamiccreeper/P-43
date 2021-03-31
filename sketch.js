@@ -1,111 +1,66 @@
- var hr ;
- var mm ;
- var sc; 
-var camera
-var scAngle;
-var hrAngle;
-var mmAngle;
+var hr, mn, sc;
+var hrAngle, mnAngle, scAngle; 
 
-
-function setup() {
-  createCanvas(800,600);
-
-  rocket=createSprite(400,200,20,20);
-
- //createSprite(400, 200, 50, 50);
+function setup(){
+    createCanvas(400,400); 
+    //To use angle in Degrees
+    angleMode(DEGREES);   
 }
 
-function draw() {
+function draw(){
+    background(0);
 
-var hr = hour();
-var mm = minute();
-var sc = second();
+    //Translation and rotation 
+    translate(200,200)
+    rotate(-90)
 
+    //Calculating time using predefined func from p5.js
+    hr = hour();
+    mn = minute();
+    sc = second();
 
+    //To create ab iterative rotation
+    scAngle = map(sc, 0, 60, 0, 360);
+    mnAngle = map(mn,0,60,0,360)
+    hrAngle = map(hr % 12,0,12,0,360)
 
-  background(255,255,255);  
+    //drawing seconds hand
+    push();
+    rotate(scAngle); //rotate the hand based on angle calculated
+    stroke(255,0,0);
+    strokeWeight(7);
+    line(0,0,100,0);
+    pop()
 
-  if(keyWentDown("RIGHT_ARROW")){
-    
-    rocket.velocityX = 15;
-    rocket.velocityY=0;
-  }
-  if(keyWentUp("RIGHT_ARROW")){
-    
-    rocket.velocityX=0;
-    rocket.velocityY=0;
-  }
-  
-  if(keyWentDown("LEFT_ARROW")){
-    
-    rocket.velocityX = -15;
-    rocket.velocityY=0;
-  }
-  if(keyWentUp("LEFT_ARROW")){
-    
-    rocket.velocityX= 0;
-    rocket.velocityY=0;
-  }
-   if(keyWentDown("UP_ARROW")){
-    
-    rocket.velocityY = -15;
-    rocket.velocityX=0;
-    
-  }
-  if(keyWentUp("UP_ARROW")){
-    
-    rocket.velocityY=0;
-    rocket.velocityX=0;
-  }
-  
-  if(keyWentDown("DOWN_ARROW")){
-    
-    rocket.velocityY=15;
-    rocket.velocityX = 0;
-    
-  }
-  if(keyWentUp("DOWN_ARROW")){
-    rocket.velocityY=0;
-    rocket.velocityX= 0;
-  }
+    //drawing mins hand
+    push();
+    rotate(mnAngle);
+    stroke(0,255,0);
+    strokeWeight(7);
+    line(0,0,75,0);
+    pop()
 
-  camera.x=rocket.x;
-  camera.y=rocket.y;
-  push();
+    //drawing hr hand
+    push();
+    rotate(hrAngle);
+    stroke(0,0,255);
+    strokeWeight(7);
+    line(0,0,50,0);
+    pop()
 
-  scAngle = map(sc,0,60,0,360);
+    stroke(255,0,255);
+    point(0,0)
 
-  rotate(scAngle);
-stroke(255,0,0);
-strokeWeight(7);
-//translate(400,200);
-arc(0,0,200,200,0,scAngle);
-line(100,0,0,0);
-
-pop();
-
-push();
-
-hrAngle = map(hr,0,60,0,360);
-rotate(hrAngle);
-stroke("blue");
-strokeWeight(7);
-//translate(400,200);
-arc(0,0,100,100,0,hrAngle);
-line(50,0,0,0);
-
-pop();
-
-push();
-
-mmAngle = map(mm,0,60,0,360);
-rotate(mmAngle);
-stroke("lime");
-strokeWeight(7);
-//translate(400,200);
-arc(0,0,150,150,0,mmAngle);
-line(75,0,0,0);
-
-pop();
-  drawSprites();
+    //drawing the arcs
+    strokeWeight(10);
+    noFill();
+    //Seconds
+    stroke(255,0,0);
+    arc(0,0,300,300,0,scAngle);
+    //Minutes
+    stroke(0,255,0);
+    arc(0,0,280,280,0,mnAngle);
+    //Hour
+    stroke(0,0,255);
+    arc(0,0,260,260,0,hrAngle);
 }
